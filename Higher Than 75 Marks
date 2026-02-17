@@ -1,0 +1,12 @@
+Query the Name of any student in STUDENTS who scored higher than  Marks. Order your output by the last three characters of each name. If two or more students both have names ending in the same last three characters (i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+
+SELECT Name from students 
+where marks >75
+order by right (name, 3), id ASC;
+
+This query solves the Higher Willingness challenge. It filters for high-achieving students and applies a specific, multi-layered sorting logic.
+Code Breakdown
+WHERE marks > 75: Filters the list to only include students with a score higher than 75.
+ORDER BY RIGHT(name, 3): This is the primary sort. The RIGHT() function extracts the last three characters of each name.
+Example: For the name "Bobby", it sorts based on "bby". For "Kristeen", it sorts based on "een".
+, id ASC: This is the secondary sort (tie-breaker). If two names end with the same three letters (like "Bobby" and "Robby"), the query will then sort them by their ID in ascending order.
