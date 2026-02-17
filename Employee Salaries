@@ -1,0 +1,12 @@
+Write a query that prints a list of employee names (i.e.: the name attribute) for employees in Employee having a salary greater than  per month who have been employees for less than  months. Sort your result by ascending employee_id.
+
+SELECT name from employee
+where salary>2000
+and months<10
+order by employee_id asc;
+
+The Criteria
+The Filter (WHERE): It targets employees earning more than $2,000 per month who have been with the company for less than 10 months.
+The Sort (ORDER BY): The results are sorted by employee_id in ascending order (from smallest to largest ID). 
+Why this Order?
+In SQL, the WHERE clause acts as a sieve to find the specific group you want, while the ORDER BY ensures the list is organized predictably. Since no direction was specified for the sort (like DESC), SQL defaults to ASC (Ascending). 
