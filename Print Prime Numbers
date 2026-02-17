@@ -1,0 +1,14 @@
+Write a query to print all prime numbers less than or equal to . Print your result on a single line, and use the ampersand () character as your separator (instead of a space).
+
+For example, the output for all prime numbers  would be:
+
+WITH RECURSIVE seq AS (SELECT 2 AS n UNION ALL SELECT n + 1 FROM seq WHERE n < 1000) 
+SELECT GROUP_CONCAT(n separator '&') FROM seq s1 
+WHERE NOT EXISTS ( SELECT 1 FROM seq s2 WHERE s2.n < s1.n AND s1.n % s2.n = 0 );
+
+This query solves the Print Prime Numbers challenge by generating a sequence of numbers and filtering them using the mathematical definition of a prime.
+Code Breakdown
+WITH RECURSIVE seq AS (...): This is a Common Table Expression (CTE) that acts as a loop. It starts at 2 and adds 1 repeatedly until it reaches 1000, creating a virtual table of all integers from 2 to 1000.
+WHERE NOT EXISTS (...): This acts as the prime number test. For every number (s1.n), it checks if there is another smaller number (s2.n) that can divide into it perfectly (where the remainder % is 0).
+If no such divisor exists, the number is prime.
+GROUP_CONCAT(n separator '&'): This MySQL function takes all the prime numbers found and joins them into a single string, using the & symbol as the glue between them.
