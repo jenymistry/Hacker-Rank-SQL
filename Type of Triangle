@@ -1,0 +1,26 @@
+Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
+
+Equilateral: It's a triangle with  sides of equal length.
+Isosceles: It's a triangle with  sides of equal length.
+Scalene: It's a triangle with  sides of differing lengths.
+Not A Triangle: The given values of A, B, and C don't form a triangle.
+Input Format
+
+The TRIANGLES table is described as follows:
+
+SELECT 
+Case 
+When A+B<= C or A+C<=B or B+C<= A then 'Not A Triangle'
+when A=B and B=C Then 'Equilateral'
+when A=B or B=C or A=C then 'Isosceles'
+else 'Scalene'
+END
+From Triangles;
+
+This query classifies types of triangles based on the lengths of their three sides (A, B, and C). It uses a CASE statement, which acts like "if-then" logic to evaluate the sides in a specific order. 
+The Logic Hierarchy
+The order of the conditions is critical because the query stops at the first condition that evaluates to true: 
+Validity Check (Not A Triangle): First, it applies the Triangle Inequality Theorem. If the sum of any two sides is not greater than the third side, the lines cannot physically form a triangle.
+Equality Check (Equilateral): If it passes the first check, it checks if all three sides are equal (A=B=C).
+Partial Equality (Isosceles): If not equilateral, it checks if at least two sides are equal.
+No Equality (Scalene): If none of the above are true, it defaults to a triangle where all sides are different lengths
