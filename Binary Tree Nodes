@@ -1,0 +1,30 @@
+You are given a table, BST, containing two columns: N and P, where N represents the value of a node in Binary Tree, and P is the parent of N.
+
+
+
+Write a query to find the node type of Binary Tree ordered by the value of the node. Output one of the following for each node:
+
+Root: If node is root node.
+Leaf: If node is leaf node.
+Inner: If node is neither root nor leaf node.
+
+SELECT BT.N, CASE WHEN BT.P IS NULL THEN 'Root' WHEN EXISTS ( SELECT 1 FROM BST AS B WHERE B.P = BT.N ) THEN 'Inner' ELSE 'Leaf' END AS node_type FROM BST AS BT ORDER BY BT.N;
+
+This query solves the Binary Tree Nodes challenge. At a high level, it examines a table representing a Binary Search Tree and labels each node based on its position in the hierarchy.
+Logic Breakdown: Categorizing the Nodes
+The query uses a CASE statement to evaluate each node (
+) by checking its relationship to its parent (
+):
+The Root (BT.P IS NULL):
+Logic: In a tree, only the top-most node has no parent.
+Result: If the parent column is empty, it is labeled 'Root'.
+The Inner Node (WHEN EXISTS...):
+Logic: This uses a correlated subquery to check if the current node (
+) appears anywhere in the table as a parent (
+) to someone else.
+Result: If the node has a parent (it's not the Root) AND it is also a parent to another node, it is labeled 'Inner'.
+The Leaf (Default ELSE):
+Logic: If a node is not the Root and doesn't have any children (it failed the first two checks), it must be at the very end of a branch.
+Result: It is labeled 'Leaf'.
+The Sorting Logic
+ORDER BY BT.N: The results are sorted numerically by the node value in ascending order to provide a clean, organized list.
