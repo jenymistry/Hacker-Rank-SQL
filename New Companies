@@ -1,0 +1,30 @@
+Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy: 
+
+Given the table schemas below, write a query to print the company_code, founder name, total number of lead managers, total number of senior managers, total number of managers, and total number of employees. Order your output by ascending company_code.
+
+Note:
+
+The tables may contain duplicate records.
+The company_code is string, so the sorting should not be numeric. For example, if the company_codes are C_1, C_2, and C_10, then the ascending company_codes will be C_1, C_10, and C_2.
+
+select c.company_code, c.founder,
+count(distinct e.lead_manager_code),
+count(distinct e.senior_manager_code),
+count(distinct e.manager_code),
+count(distinct e.employee_code)
+from Company as c
+join Employee as e
+on c.company_code = e.company_code
+group by c.company_code, c.founder
+order by c.company_code;
+
+
+This query solves the New Companies challenge. At a high level, it generates a management hierarchy report for each company, showing the founder and the total count of distinct employees at every leadership level.
+High-Level Explanation
+The Goal: To list every company's code and founder, followed by the number of unique Lead Managers, Senior Managers, Managers, and Employees working under them.
+The Join: It connects the Company table (which contains the founder's name) to the Employee table (which contains the hierarchy codes) using the company_code.
+The Aggregation (COUNT DISTINCT): Because one Lead Manager might oversee multiple Senior Managers (and so on), the query uses COUNT(DISTINCT ...) to ensure each individual person is only counted once, even if they appear in multiple rows.
+The Grouping: It uses GROUP BY on both company_code and founder so that the counts are calculated specifically for each unique company.
+The Sorting: Results are ordered by company_code in ascending order (A to Z) to meet the challenge requirements.
+Pro-Tip: Simplified Version
+In some database environments, you don't actually need a JOIN for this specific challenge because the Employee table usually contains the founder or company_code information already. You could also write it as a comma-separated list of tables (Implicit Join):
