@@ -1,0 +1,15 @@
+Write a query that prints a list of employee names (i.e.: the name attribute) from the Employee table in alphabetical order.
+
+Input Format
+
+The Employee table containing employee data for a company is described as follows:
+
+Select name from Employee
+order by name asc;
+
+
+SELECT name: Tells the database to only retrieve data from the name column. It ignores other details like employee_id, salary, or months.
+FROM Employee: Specifies the source table where the data is stored.
+ORDER BY name ASC: This is the sorting instruction.
+
+ASC: Short for Ascending. For text, this means sorting from A to Z.
