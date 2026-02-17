@@ -1,0 +1,41 @@
+You are given a table, Functions, containing two columns: X and Y.
+
+
+
+Two pairs (X1, Y1) and (X2, Y2) are said to be symmetric pairs if X1 = Y2 and X2 = Y1.
+
+Write a query to output all such symmetric pairs in ascending order by the value of X. List the rows such that X1 ≤ Y1.
+
+SELECT f1.X, f1.Y
+FROM Functions f1
+JOIN Functions f2 ON f1.X = f2.Y AND f1.Y = f2.X
+GROUP BY f1.X, f1.Y
+HAVING f1.X < f1.Y OR COUNT(f1.X) > 1
+ORDER BY f1.X ASC;
+
+
+This query solves the Symmetric Pairs challenge. At a high level, it identifies pairs 
+ where a matching pair 
+ also exists in the same table.
+The Logic: Finding Symmetry
+The Self-Join (JOIN Functions f2 ON f1.X = f2.Y AND f1.Y = f2.X): This is the "mirror" logic. It matches every row f1 with any row f2 where the 
+ and 
+ values are flipped.
+Example: If row 1 is 
+, it looks for another row that is 
+.
+The Filtering (HAVING): This handles two distinct scenarios to ensure accuracy:
+f1.X < f1.Y: For standard pairs where 
+ and 
+ are different (like 
+), this ensures we only list the pair once (returning 
+ and not also 
+).
+COUNT(f1.X) > 1: This handles cases where 
+ (like 
+). A "symmetric pair" for 
+ only exists if there is a second identical row in the table. The count ensures we don't match a single row with itself.
+The Sorting (ORDER BY f1.X ASC): Organizes the final list of symmetric pairs by the first value in ascending order.
+Key Concepts Used
+Self-Join: Linking a table to itself to compare rows within the same dataset.
+HAVING Clause: Applying filters to grouped data (specifically used here to validate the symmetry of identical values).
