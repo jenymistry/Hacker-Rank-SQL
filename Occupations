@@ -1,0 +1,63 @@
+Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. The output should consist of four columns (Doctor, Professor, Singer, and Actor) in that specific order, with their respective names listed alphabetically under each column.
+
+Note: Print NULL when there are no more names corresponding to an occupation.
+
+Input Format
+
+The OCCUPATIONS table is described as follows:
+
+
+
+Occupation will only contain one of the following values: Doctor, Professor, Singer or Actor.
+
+SELECT
+    MAX(CASE WHEN Occupation = 'Doctor' THEN Name END) AS Doctor,
+    MAX(CASE WHEN Occupation = 'Professor' THEN Name END) AS Professor,
+    MAX(CASE WHEN Occupation = 'Singer' THEN Name END) AS Singer,
+    MAX(CASE WHEN Occupation = 'Actor' THEN Name END) AS Actor
+FROM (
+    SELECT
+        Name,
+        Occupation,
+        ROW_NUMBER() OVER(PARTITION BY Occupation ORDER BY Name) AS rn
+    FROM
+        OCCUPATIONS
+) AS Subquery
+GROUP BY
+    rn
+ORDER BY
+    rn;
+AS Doctor,
+    MAX(CASE WHEN Occupation = 'Professor' THEN Name END) AS Professor,
+    MAX(CASE WHEN Occupation = 'Singer' THEN Name END) AS Singer,
+    MAX(CASE WHEN Occupation = 'Actor' THEN Name END) AS Actor
+FROM (
+    SELECT
+        Name,
+        Occupation,
+        ROW_NUMBER() OVER(PARTITION BY Occupation ORDER BY Name) AS rn
+    FROM
+        OCCUPATIONS
+) AS Subquery
+GROUP BY
+    rn
+ORDER BY
+    rn;
+This query solves the Occupations challenge. At a high level, it pivots the data from a vertical format (one row per person) into a horizontal format (one column per occupation) with names sorted alphabetically in each column.
+The Pivot Strategy
+1. The Subquery (Ranking)
+ROW_NUMBER() OVER(PARTITION BY Occupation ORDER BY Name): This is the engine of the query. It assigns a rank to each person within their specific occupation group, sorted alphabetically.
+Example: The first doctor alphabetically gets rn = 1, the second gets rn = 2, and so on. This creates a "row index" so that all "first" people can be grouped together.
+2. The Outer Query (Pivoting)
+CASE WHEN Occupation = '...' THEN Name END: This separates the names into their respective occupational columns.
+MAX(...): Because we are using GROUP BY rn, the MAX function is used to pick the name out of the group. Since each cell in the final grid only has one name (and the rest are NULL), MAX simply retrieves that single name.
+GROUP BY rn: This ensures that all people with rn = 1 (the first alphabetical person in each category) appear on the first row of the output, all rn = 2 on the second, etc.
+Expected Output
+The table will be restructured into four columns. If an occupation has fewer people than others, the remaining cells in that column will show NULL.
+Doctor	Professor	Singer	Actor
+Aamina	Ashley	Christeen	Eve
+Julia	Belvet	Jane	Jennifer
+Priya	Britney	Jenny	Ketty
+Key Technical Concepts
+Window Functions (ROW_NUMBER): Essential for creating dynamic groups within categories.
+Pivot Logic: Using CASE and MAX together is the standard way to pivot data in SQL versions that don't have a built-in PIVOT command (like MySQL).
