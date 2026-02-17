@@ -1,0 +1,21 @@
+Given the CITY and COUNTRY tables, query the names of all cities where the CONTINENT is 'Africa'.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+Input Format
+
+SELECT CITY.NAME from CITY 
+join COUNTRY 
+on CITY.COUNTRYCODE=COUNTRY.CODE
+Where COUNTRY.CONTINENT='Africa';
+
+
+High-Level Explanation
+The Goal: Find city names, but the "continent" information is stored in a different table than the "city" names.
+The Join: It performs an Inner Join between the CITY and COUNTRY tables. This combines rows from both tables only where there is a match between the CountryCode in the city table and the Code in the country table.
+The Filter: The WHERE clause narrows the results to only include rows where the CONTINENT column in the country table is exactly 'Africa'.
+The Selection: Finally, it only prints the NAME column from the CITY table for those matching rows. 
+Key Technical Components
+JOIN (Inner Join): Links the two tables based on a common key. Using CITY.NAME instead of just NAME prevents an "ambiguous column" error, as both tables may have a column called NAME.
+ON CITY.COUNTRYCODE = COUNTRY.CODE: This is the joining condition. It tells the database that these two columns contain the same ID values (like 'NGA' for Nigeria).
+WHERE CONTINENT = 'Africa': This is the search criteria that excludes all cities from other continents like Europe or Asia. 
