@@ -1,0 +1,22 @@
+Query the following two values from the STATION table:
+
+The sum of all values in LAT_N rounded to a scale of  decimal places.
+The sum of all values in LONG_W rounded to a scale of  decimal places.
+Input Format
+
+The STATION table is described as follows:
+
+SELECT ROUND(SUM(LAT_N), 2), ROUND(SUM(LONG_W), 2)
+FROM STATION;
+
+
+SUM(LAT_N) and SUM(LONG_W): These are aggregate functions that calculate the total of all values in the LAT_N (Northern Latitude) and LONG_W (Western Longitude) columns across every row in the STATION table.
+ROUND(..., 2): The ROUND function takes the resulting sums and limits them to 2 decimal places.
+Example: If the sum is 42850.038, ROUND(..., 2) will return 42850.04.
+FROM STATION: This specifies the source table containing the data. 
+Expected Output
+The query returns a single row with two values: 
+The rounded sum of all latitudes.
+The rounded sum of all longitudes. 
+ROUND(SUM(LAT_N), 2) 	ROUND(SUM(LONG_W), 2)
+42850.04	47381.48
